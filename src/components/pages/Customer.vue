@@ -27,7 +27,7 @@
                             <div class="col-md-12" v-if="installment.addon_id">
                                 <div class="card">
                                     <div class="card-header bg-success">
-                                        <h5><b>{{ installment.addon_id }} ( {{ installment.price }} {{ installment.currency }} )</b></h5>
+                                        <h5><b>{{ installment.addon_id }} ( {{ installment.price | currency }} {{ installment.currency }} )</b></h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         <!-- <li class="list-group-item"><b>{{ installment.price }} {{ installment.currency }}</b></li> -->
@@ -48,8 +48,8 @@
                                                     </div>
                                                     <div class="card-body">
 
-                                                        <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount }}</h5>
-                                                        <p class="card-text">Due date: <b>{{ schedule.due_date }}</b></p>
+                                                        <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount | currency }}</h5>
+                                                        <p class="card-text">Due date: <b>{{ schedule.due_date | moment("dddd, MMMM DD, YYYY") }}</b></p>
                                                         <p class="card-text">Payment ID: <b>{{ schedule.sf_payment_schedule_id }}</b></p>
                                                         <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p>
                                                     </div>
@@ -71,6 +71,7 @@
 
 <script>
 import axios from 'axios';
+
 
 export default {
     name: "Customer",
@@ -102,16 +103,14 @@ export default {
      {
         fetchCustomerDetails(){
             this.loading = true;
-            // const requestOptions = {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({ title: "Vue POST Request Example" })
-            // };
             // axios.post("https://reqres.in/api/articles", this.params)
-            axios.post("http://portal-login.local/fe-payments/customer-installment", this.params,{ "x-api-key": "this.params.hash" })
+            axios.post("https://portal-login.xyz/sc2-admin/fe-payments/customer-installment", this.params,{ "x-api-key": this.params.hash })
                 .then( response => {
                     console.log("response",response);
                     this.loading = false;
+            }).catch((error) => {
+                console.log("error",error);
+                this.loading = false;
             });
             // --
             this.customerInstallments = {

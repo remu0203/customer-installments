@@ -27,7 +27,7 @@
                             <div class="col-md-12" v-if="installment.addon_id">
                                 <div class="card">
                                     <div class="card-header bg-success">
-                                        <h5><b>{{ installment.addon_id }} ( {{ installment.price | currency }} {{ installment.currency }} )</b></h5>
+                                        <h5><b>{{ installment.addon_id }} ( {{ installment.price | toCurrency }} {{ installment.currency }} )</b></h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         <!-- <li class="list-group-item"><b>{{ installment.price }} {{ installment.currency }}</b></li> -->
@@ -48,7 +48,7 @@
                                                     </div>
                                                     <div class="card-body">
 
-                                                        <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount | currency }}</h5>
+                                                        <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount | toCurrency }}</h5>
                                                         <p class="card-text">Due date: <b>{{ schedule.due_date | moment("dddd, MMMM DD, YYYY") }}</b></p>
                                                         <p class="card-text">Payment ID: <b>{{ schedule.sf_payment_schedule_id }}</b></p>
                                                         <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p>

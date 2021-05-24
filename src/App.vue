@@ -11,6 +11,12 @@ import Vue2Filters from 'vue2-filters'
 
 Vue.use(Vue2Filters)
 Vue.use(require('vue-moment'));
+Vue.filter('toCurrency', function (value) {
+    if(value==''||value==null||value==undefined){
+      value = 0;
+    }
+    return Number(value).toLocaleString();
+});
 
 import AppFooter from './components/layout/AppFooter.vue'
 import Customer from './components/pages/Customer.vue'

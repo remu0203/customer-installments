@@ -115,14 +115,120 @@ export default {
                 { email: this.params.email },
                 { headers: {'x-api-key': this.params.hash} }
             ).then( response => {
-                // console.log("response",response);
-                this.customerInstallments = response;
+                console.log("response",response);
+                // this.customerInstallments = response;
                 this.loading = false;
             }).catch((error) => {
                 console.log("error",error);
                 this.customerInstallments = {};
                 this.loading = false;
             });
+            // --
+            this.customerInstallments = {
+                "customer": {
+                    "id": 45,
+                    "instance": "App\\Instances\\SmartCharts",
+                    "salesforce_token": "0010Q00001HM5vLQAT",
+                    "chargebee_id": "AzyuBLSXx2tm4ePq",
+                    "chargebee_subscription_id": null,
+                    "salutation": null,
+                    "first_name": "Juan",
+                    "last_name": "Cruz",
+                    "nickname": null,
+                    "email": "ghostdummy2020+new87@gmail.com",
+                    "date_of_birth": null,
+                    "language": "en",
+                    "accepted_terms": 0,
+                    "over_18": 0,
+                    "edit_lock": 0,
+                    "verification_email_sent": 1,
+                    "email_modified_by_instance": null,
+                    "email_verified_at": null,
+                    "initial_demo_account": null,
+                    "redirect_url": null,
+                    "created_at": "2021-05-20 11:51:47",
+                    "updated_at": "2021-05-20 11:51:50",
+                    "hasActiveSubscription": false,
+                    "profile": {
+                        "id": 44,
+                        "user_id": 45,
+                        "profile_picture": null,
+                        "country_of_residence": null,
+                        "accepted_terms": 1,
+                        "current_stage": null,
+                        "is_marketing_journey": 1,
+                        "finished_enrolment": 0,
+                        "enrolment_purchase_subscription": null,
+                        "enrolment_purchase_option": "a3t0Q000000Ad0OQAS",
+                        "enrolment_purchase_amount": "9900.00",
+                        "affiliate_product_id": "a070Q00000ByQzOQAV",
+                        "payment_id": null,
+                        "created_at": "2021-05-20 11:51:50",
+                        "updated_at": "2021-05-20 11:51:50"
+                    }
+                },
+                "installment": [
+                    {
+                        "id": 1,
+                        "user_id": 45,
+                        "installment_subscription_id": 2,
+                        "staff_sf_id": null,
+                        "staff_sc2_id": null,
+                        "sf_sales_id": "a0D0Q000002vHwOUAU",
+                        "event_id": "a000Q00000Aki9MQAR",
+                        "product_id": "a08w000000eNuKy",
+                        "cb_invoice_id": "9887",
+                        "price": "4995.00",
+                        "currency": "AUD",
+                        "addon_id": "learn-forex-elearning-course-aud",
+                        "debt_status": "Payment Plan",
+                        "sf_sync_status": 1,
+                        "created_at": "2021-05-20 11:51:50",
+                        "updated_at": "2021-05-20 11:51:57",
+                        "installment_payment_schedules": [
+                            {
+                                "id": 1,
+                                "user_id": 45,
+                                "installment_payment_id": 1,
+                                "staff_sc2_id": null,
+                                "sf_payment_schedule_id": "a090Q000006duM3QAI",
+                                "sf_payment_schedule_name": "PS-20211695197",
+                                "discrepancy_amount": "0.00",
+                                "amount": "4000.00",
+                                "due_date": "2021-05-20",
+                                "currency": "AUD",
+                                "payment_method": "card",
+                                "amount_paid": "4000.00",
+                                "sequence_no": "0",
+                                "status": "Paid",
+                                "created_at": "2021-05-20 11:51:50",
+                                "updated_at": "2021-05-20 11:51:53",
+                                "installment_payment_transactions": []
+                            },
+                            {
+                                "id": 2,
+                                "user_id": 45,
+                                "installment_payment_id": 1,
+                                "staff_sc2_id": null,
+                                "sf_payment_schedule_id": "a090Q000006duM8QAI",
+                                "sf_payment_schedule_name": "PS-20211695198",
+                                "discrepancy_amount": "0.00",
+                                "amount": "995.00",
+                                "due_date": "2021-05-21",
+                                "currency": "AUD",
+                                "payment_method": null,
+                                "amount_paid": "0.00",
+                                "sequence_no": "1",
+                                "status": "Pending",
+                                "created_at": "2021-05-20 11:51:50",
+                                "updated_at": "2021-05-20 11:51:54",
+                                "installment_payment_transactions": []
+                            }
+                        ]
+                    }
+                ]
+            };
+            //--
             this.loading = false;
         },
         resolveCurrencySymbol(currency){

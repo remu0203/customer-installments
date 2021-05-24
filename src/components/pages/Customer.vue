@@ -113,7 +113,7 @@ export default {
             this.loading = true;
             axios.post(this.url, 
                 { email: this.params.email },
-                { headers: {'x-api-key': this.params.hash} }
+                { headers: {'x-api-key': this.params.hash, Authorization: "x-api-key", crossdomain: true, 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type, Authorization'} }
             );
             // .then( response => {
             //     console.log("response",response);

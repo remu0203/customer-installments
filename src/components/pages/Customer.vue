@@ -45,23 +45,37 @@
                                         <li class="list-group-item"><b>Product ID:</b> {{ installment.product_id }}</li>
                                         <li class="list-group-item"><b>Salesforce Sales ID:</b> {{ installment.sf_sales_id }}</li>
                                     </ul>
-                                    
+
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-6" v-for="(schedule, key) in installment.installment_payment_schedules"  v-bind:key="key">
-                                                <div class="card mb-3" :class="resolveClass(schedule.status)">
-                                                    <div class="card-header">
-                                                        <h5><b class="all-caps">{{ schedule.status }}</b></h5>
-                                                        <!-- <p>( {{ schedule.sf_payment_schedule_id }} )</p> -->
-                                                    </div>
-                                                    <div class="card-body">
+                                            <div class="col-md-2">
+                                                <!-- <b-button variant="outline-primary" v-model="grid">0</b-button> -->
+                                                <b-button variant="outline-primary" @click="toggleView()" :title="grid===true ? 'View data in LIST' : 'View data in GRID'">
+                                                    <b-icon :icon="grid===true ? 'list-ul' : 'grid3x3-gap-fill'"></b-icon> {{ grid===true ? 'List' : 'Grid' }}
+                                                </b-button>
+                                                <br><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <template v-if="grid">
+                                                <div class="col-md-4" v-for="(schedule, key) in installment.installment_payment_schedules"  v-bind:key="key">
+                                                    <div class="card mb-3" :class="resolveClass(schedule.status)">
+                                                        <div class="card-header">
+                                                            <h5><b class="all-caps">{{ schedule.status }}</b></h5>
+                                                            <!-- <p>( {{ schedule.sf_payment_schedule_id }} )</p> -->
+                                                        </div>
+                                                        <div class="card-body">
 
-                                                        <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount | toCurrency }}</h5>
-                                                        <p class="card-text">Due date: <b>{{ schedule.due_date | moment("dddd, MMMM DD, YYYY") }}</b></p>
-                                                        <p class="card-text">Payment ID: <b>{{ schedule.sf_payment_schedule_id }}</b></p>
-                                                        <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p>
+                                                            <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount | toCurrency }}</h5>
+                                                            <p class="card-text">Due date: <b>{{ schedule.due_date | moment("dddd, MMMM DD, YYYY") }}</b></p>
+                                                            <p class="card-text">Payment ID: <b>{{ schedule.sf_payment_schedule_id }}</b></p>
+                                                            <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            </template>
+                                            <div class="col-md-12" v-else>
+                                                <b-table hover :items="installment.installment_payment_schedules" :fields="fields" :tbody-tr-class="rowClass"></b-table>
                                             </div>
                                         </div>
                                     </div>
@@ -83,11 +97,42 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment'
 
 export default {
     name: "Customer",
     data() {
         return {
+            fields: [
+                {
+                    key: 'status',
+                    sortable: true
+                },
+                {
+                    key: 'due_date',
+                    formatter: "formatDueDate",
+                    sortable: true
+                },
+                {
+                    key: 'amount',
+                    formatter: "formatAmount",
+                    sortable: true
+                },
+                {
+                    key: 'currency',
+                    sortable: false
+                },
+                {
+                    key: 'sf_payment_schedule_id',
+                    label: 'Payment ID',
+                    sortable: true
+                },
+                {
+                    key: 'sf_payment_schedule_name',
+                    label: 'Payment Name',
+                    sortable: true
+                },
+            ],
             loading: false,
             params: {
                 hash: '',
@@ -95,7 +140,8 @@ export default {
             },
             customerInstallments: {},
             url: '/sc2-admin/fe-payments/customer-installment',
-            message: 'No Data Found'
+            message: 'No Data Found',
+            grid: false
         }
         // t=%242y%2410%24qNN9AKIhKhZWPPL%2F0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW&e=remremdummy%2Bf1%40gmail.com
         // $2y$10$qNN9AKIhKhZWPPL/0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW
@@ -146,6 +192,23 @@ export default {
                 return 'bg-success';
             }
             return 'bg-light';
+        },
+        rowClass(item, type) {
+            if (!item || type !== 'row') return
+            if (item.status === 'Pending') return 'table-danger'
+        },
+        formatDueDate(value) {
+            return moment(value, 'YYYY-MM-DD').format('dddd, MMMM DD, YYYY');
+        },
+        formatAmount(value){
+            if(value==''||value==null||value==undefined){
+                value = 0;
+            }
+            let n = Number(value).toFixed(2);
+            return Number(n).toLocaleString();
+        },
+        toggleView(){
+            this.grid = !this.grid;
         }
      }
 }

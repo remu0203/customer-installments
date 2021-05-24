@@ -3,9 +3,17 @@
         <div class="page-header header-filter" data-parallax="true" >
         <a href="https://www.smartcharts.net/" style="z-index: 1; margin: 0px 0px 50px 200px;"><img src="images/logo.png" alt="Smartchart Logo" ></a>
         </div>
-        <div class="main main-raised" v-if="!loading">
+        
+        <div class="main main-raised" >
             <div class="profile-content">
-                <div class="container">
+                <div class="container" v-if="loading">
+                    <br> 
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="container" v-if="!loading">
                     <div class="row" v-if="customerInstallments.customer">
                         <div class="col-md-6 ml-auto mr-auto">
                             <div class="profile">
@@ -72,7 +80,6 @@
 <script>
 import axios from 'axios';
 
-
 export default {
     name: "Customer",
     data() {
@@ -82,7 +89,8 @@ export default {
                 hash: '',
                 email: ''
             },
-            customerInstallments: {}
+            customerInstallments: {},
+            url: 'https://login.smartcharts.xyz/sc2-admin/fe-payments/customer-installment'
         }
         // t=%242y%2410%24qNN9AKIhKhZWPPL%2F0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW&e=remremdummy%2Bf1%40gmail.com
         // $2y$10$qNN9AKIhKhZWPPL/0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW
@@ -103,121 +111,18 @@ export default {
      {
         fetchCustomerDetails(){
             this.loading = true;
-            // axios.post("https://reqres.in/api/articles", this.params)
-            axios.post("https://portal-login.xyz/sc2-admin/fe-payments/customer-installment", this.params,{ "x-api-key": this.params.hash })
-                .then( response => {
-                    console.log("response",response);
-                    this.loading = false;
+            axios.post(this.url, 
+                { email: this.params.email },
+                { headers: {'x-api-key': this.params.hash} }
+            ).then( response => {
+                // console.log("response",response);
+                this.customerInstallments = response;
+                this.loading = false;
             }).catch((error) => {
                 console.log("error",error);
+                this.customerInstallments = {};
                 this.loading = false;
             });
-            // --
-            this.customerInstallments = {
-                "customer": {
-                    "id": 45,
-                    "instance": "App\\Instances\\SmartCharts",
-                    "salesforce_token": "0010Q00001HM5vLQAT",
-                    "chargebee_id": "AzyuBLSXx2tm4ePq",
-                    "chargebee_subscription_id": null,
-                    "salutation": null,
-                    "first_name": "Juan",
-                    "last_name": "Cruz",
-                    "nickname": null,
-                    "email": "ghostdummy2020+new87@gmail.com",
-                    "date_of_birth": null,
-                    "language": "en",
-                    "accepted_terms": 0,
-                    "over_18": 0,
-                    "edit_lock": 0,
-                    "verification_email_sent": 1,
-                    "email_modified_by_instance": null,
-                    "email_verified_at": null,
-                    "initial_demo_account": null,
-                    "redirect_url": null,
-                    "created_at": "2021-05-20 11:51:47",
-                    "updated_at": "2021-05-20 11:51:50",
-                    "hasActiveSubscription": false,
-                    "profile": {
-                        "id": 44,
-                        "user_id": 45,
-                        "profile_picture": null,
-                        "country_of_residence": null,
-                        "accepted_terms": 1,
-                        "current_stage": null,
-                        "is_marketing_journey": 1,
-                        "finished_enrolment": 0,
-                        "enrolment_purchase_subscription": null,
-                        "enrolment_purchase_option": "a3t0Q000000Ad0OQAS",
-                        "enrolment_purchase_amount": "9900.00",
-                        "affiliate_product_id": "a070Q00000ByQzOQAV",
-                        "payment_id": null,
-                        "created_at": "2021-05-20 11:51:50",
-                        "updated_at": "2021-05-20 11:51:50"
-                    }
-                },
-                "installment": [
-                    {
-                        "id": 1,
-                        "user_id": 45,
-                        "installment_subscription_id": 2,
-                        "staff_sf_id": null,
-                        "staff_sc2_id": null,
-                        "sf_sales_id": "a0D0Q000002vHwOUAU",
-                        "event_id": "a000Q00000Aki9MQAR",
-                        "product_id": "a08w000000eNuKy",
-                        "cb_invoice_id": "9887",
-                        "price": "4995.00",
-                        "currency": "AUD",
-                        "addon_id": "learn-forex-elearning-course-aud",
-                        "debt_status": "Payment Plan",
-                        "sf_sync_status": 1,
-                        "created_at": "2021-05-20 11:51:50",
-                        "updated_at": "2021-05-20 11:51:57",
-                        "installment_payment_schedules": [
-                            {
-                                "id": 1,
-                                "user_id": 45,
-                                "installment_payment_id": 1,
-                                "staff_sc2_id": null,
-                                "sf_payment_schedule_id": "a090Q000006duM3QAI",
-                                "sf_payment_schedule_name": "PS-20211695197",
-                                "discrepancy_amount": "0.00",
-                                "amount": "4000.00",
-                                "due_date": "2021-05-20",
-                                "currency": "AUD",
-                                "payment_method": "card",
-                                "amount_paid": "4000.00",
-                                "sequence_no": "0",
-                                "status": "Paid",
-                                "created_at": "2021-05-20 11:51:50",
-                                "updated_at": "2021-05-20 11:51:53",
-                                "installment_payment_transactions": []
-                            },
-                            {
-                                "id": 2,
-                                "user_id": 45,
-                                "installment_payment_id": 1,
-                                "staff_sc2_id": null,
-                                "sf_payment_schedule_id": "a090Q000006duM8QAI",
-                                "sf_payment_schedule_name": "PS-20211695198",
-                                "discrepancy_amount": "0.00",
-                                "amount": "995.00",
-                                "due_date": "2021-05-21",
-                                "currency": "AUD",
-                                "payment_method": null,
-                                "amount_paid": "0.00",
-                                "sequence_no": "1",
-                                "status": "Pending",
-                                "created_at": "2021-05-20 11:51:50",
-                                "updated_at": "2021-05-20 11:51:54",
-                                "installment_payment_transactions": []
-                            }
-                        ]
-                    }
-                ]
-            };
-            //--
             this.loading = false;
         },
         resolveCurrencySymbol(currency){

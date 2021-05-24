@@ -70,6 +70,10 @@
                             </div>
                         </div>
                     </template>
+                    <template v-else>
+                        <br>
+                        {{ message }}
+                    </template>
                     <br><br>
                 </div>
             </div>
@@ -90,7 +94,8 @@ export default {
                 email: ''
             },
             customerInstallments: {},
-            url: '/sc2-admin/fe-payments/customer-installment'
+            url: '/sc2-admin/fe-payments/customer-installment',
+            message: 'No Data Found'
         }
         // t=%242y%2410%24qNN9AKIhKhZWPPL%2F0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW&e=remremdummy%2Bf1%40gmail.com
         // $2y$10$qNN9AKIhKhZWPPL/0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW
@@ -114,161 +119,17 @@ export default {
             axios.post(this.url, 
                 { email: this.params.email },
                 { headers: {'x-api-key': this.params.hash, Authorization: "x-api-key", crossdomain: true, 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type, Authorization'} }
-            );
-            // .then( response => {
-            //     console.log("response",response);
-            //     // this.customerInstallments = response;
-            //     this.loading = false;
-            // })
-            // .catch((error) => {
-            //     console.log("error",error);
-            //     this.customerInstallments = {};
-            //     this.loading = false;
-            // });
-            // --
-            this.customerInstallments = {
-                "customer": {
-                    "id": 693,
-                    "instance": "App\\Instances\\SmartCharts",
-                    "salesforce_token": "0010Q00001HMUmrQAH",
-                    "chargebee_id": "16BjtSSY1mxkT970",
-                    "chargebee_subscription_id": null,
-                    "salutation": null,
-                    "first_name": "Remi",
-                    "last_name": "Yamat",
-                    "nickname": null,
-                    "email": "remremdummy+f1@gmail.com",
-                    "date_of_birth": null,
-                    "language": "en",
-                    "accepted_terms": 0,
-                    "over_18": 0,
-                    "edit_lock": 0,
-                    "verification_email_sent": 1,
-                    "email_modified_by_instance": null,
-                    "email_verified_at": null,
-                    "initial_demo_account": null,
-                    "redirect_url": null,
-                    "created_at": "2021-05-21 07:19:24",
-                    "updated_at": "2021-05-21 07:19:27",
-                    "hasActiveSubscription": false,
-                    "profile": {
-                        "id": 674,
-                        "user_id": 693,
-                        "profile_picture": null,
-                        "country_of_residence": null,
-                        "accepted_terms": 1,
-                        "current_stage": null,
-                        "is_marketing_journey": 1,
-                        "finished_enrolment": 0,
-                        "enrolment_purchase_subscription": null,
-                        "enrolment_purchase_option": "a3t0Q000000Afa9QAC",
-                        "enrolment_purchase_amount": "14900.00",
-                        "affiliate_product_id": "a072X00001DUj6jQAD",
-                        "payment_id": null,
-                        "created_at": "2021-05-21 07:19:27",
-                        "updated_at": "2021-05-21 07:19:27"
-                    }
-                },
-                "installment": [
-                    {
-                        "id": 124,
-                        "user_id": 693,
-                        "installment_subscription_id": 136,
-                        "staff_sf_id": null,
-                        "staff_sc2_id": null,
-                        "sf_sales_id": "a0D0Q000002vIvsUAE",
-                        "event_id": "a000Q00000Aki9RQAR",
-                        "product_id": "a08w000000eNuKy",
-                        "cb_invoice_id": "9910",
-                        "price": "4995.00",
-                        "currency": "AUD",
-                        "addon_id": "learn-forex-elearning-course-aud",
-                        "debt_status": "Payment Plan",
-                        "sf_sync_status": 1,
-                        "created_at": "2021-05-21 07:19:27",
-                        "updated_at": "2021-05-21 07:19:36",
-                        "installment_payment_schedules": [
-                            {
-                                "id": 349,
-                                "user_id": 693,
-                                "installment_payment_id": 124,
-                                "staff_sc2_id": null,
-                                "sf_payment_schedule_id": "a090Q000006dyYpQAI",
-                                "sf_payment_schedule_name": "PS-20211695204",
-                                "discrepancy_amount": "0.00",
-                                "amount": "1000.00",
-                                "due_date": "2021-05-21",
-                                "currency": "AUD",
-                                "payment_method": "card",
-                                "amount_paid": "1000.00",
-                                "sequence_no": "0",
-                                "status": "Paid",
-                                "created_at": "2021-05-21 07:19:27",
-                                "updated_at": "2021-05-21 07:19:30",
-                                "installment_payment_transactions": []
-                            },
-                            {
-                                "id": 350,
-                                "user_id": 693,
-                                "installment_payment_id": 124,
-                                "staff_sc2_id": null,
-                                "sf_payment_schedule_id": "a090Q000006dyaaQAA",
-                                "sf_payment_schedule_name": "PS-20211695205",
-                                "discrepancy_amount": "0.00",
-                                "amount": "1100.00",
-                                "due_date": "2021-05-23",
-                                "currency": "AUD",
-                                "payment_method": null,
-                                "amount_paid": "0.00",
-                                "sequence_no": "1",
-                                "status": "Pending",
-                                "created_at": "2021-05-21 07:19:27",
-                                "updated_at": "2021-05-21 07:19:30",
-                                "installment_payment_transactions": []
-                            },
-                            {
-                                "id": 351,
-                                "user_id": 693,
-                                "installment_payment_id": 124,
-                                "staff_sc2_id": null,
-                                "sf_payment_schedule_id": "a090Q000006dyafQAA",
-                                "sf_payment_schedule_name": "PS-20211695206",
-                                "discrepancy_amount": "0.00",
-                                "amount": "1200.00",
-                                "due_date": "2021-05-24",
-                                "currency": "AUD",
-                                "payment_method": null,
-                                "amount_paid": "0.00",
-                                "sequence_no": "2",
-                                "status": "Pending",
-                                "created_at": "2021-05-21 07:19:27",
-                                "updated_at": "2021-05-21 07:19:31",
-                                "installment_payment_transactions": []
-                            },
-                            {
-                                "id": 352,
-                                "user_id": 693,
-                                "installment_payment_id": 124,
-                                "staff_sc2_id": null,
-                                "sf_payment_schedule_id": "a090Q000006dyakQAA",
-                                "sf_payment_schedule_name": "PS-20211695207",
-                                "discrepancy_amount": "0.00",
-                                "amount": "1695.00",
-                                "due_date": "2021-05-25",
-                                "currency": "AUD",
-                                "payment_method": null,
-                                "amount_paid": "0.00",
-                                "sequence_no": "3",
-                                "status": "Pending",
-                                "created_at": "2021-05-21 07:19:27",
-                                "updated_at": "2021-05-21 07:19:32",
-                                "installment_payment_transactions": []
-                            }
-                        ]
-                    }
-                ]
-            };
-            //--
+            )
+            .then( response => {
+                console.log("response",response);
+                this.customerInstallments = response.data;
+                this.loading = false;
+            })
+            .catch((error) => {
+                console.log("error",error);
+                this.customerInstallments = {};
+                this.loading = false;
+            });
             this.loading = false;
         },
         resolveCurrencySymbol(currency){

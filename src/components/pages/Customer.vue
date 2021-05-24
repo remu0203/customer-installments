@@ -21,7 +21,7 @@
                                     <img src="images/default_profile.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
                                 </div>
                                 <div class="name">
-                                    <h3 class="title">{{ customerInstallments.customer.first_name }} {{ customerInstallments.customer.last_name }}</h3>
+                                    <h3 class="title all-caps" style="font-family: Avenir, Helvetica, Arial, sans-serif;">{{ customerInstallments.customer.first_name }} {{ customerInstallments.customer.last_name }}</h3>
                                     <p>{{ customerInstallments.customer.email }}</p>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                                     <div class="card-header bg-success">
                                         <h5><b>{{ installment.addon_id }} ( {{ installment.price | toCurrency }} {{ installment.currency }} )</b></h5>
                                     </div>
-                                    <ul class="list-group list-group-flush">
+                                    <ul class="list-group list-group-flush" style="text-align:left;">
                                         <!-- <li class="list-group-item"><b>{{ installment.price }} {{ installment.currency }}</b></li> -->
                                         <li class="list-group-item"><b>Status:</b> {{ installment.debt_status }}</li>
                                         <li class="list-group-item"><b>Event ID:</b> {{ installment.event_id }}</li>
@@ -114,15 +114,17 @@ export default {
             axios.post(this.url, 
                 { email: this.params.email },
                 { headers: {'x-api-key': this.params.hash} }
-            ).then( response => {
-                console.log("response",response);
-                // this.customerInstallments = response;
-                this.loading = false;
-            }).catch((error) => {
-                console.log("error",error);
-                this.customerInstallments = {};
-                this.loading = false;
-            });
+            );
+            // .then( response => {
+            //     console.log("response",response);
+            //     // this.customerInstallments = response;
+            //     this.loading = false;
+            // })
+            // .catch((error) => {
+            //     console.log("error",error);
+            //     this.customerInstallments = {};
+            //     this.loading = false;
+            // });
             // --
             this.customerInstallments = {
                 "customer": {
@@ -249,3 +251,17 @@ export default {
      }
 }
 </script>
+
+<style scoped>
+.bg-warning{
+    background-color: #f8eb93!important;
+}
+
+.bg-info{
+    background-color: #78d6e5!important;
+}
+
+.bg-success{
+    background-color: #78e5a4!important;
+}
+</style>

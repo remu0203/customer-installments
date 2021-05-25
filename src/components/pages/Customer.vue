@@ -90,7 +90,7 @@ export default {
                 email: ''
             },
             customerInstallments: {},
-            url: '/sc2-admin/fe-payments/customer-installment'
+            url: process.env.VUE_APP_API_ENDPOINT
         }
         // t=%242y%2410%24qNN9AKIhKhZWPPL%2F0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW&e=remremdummy%2Bf1%40gmail.com
         // $2y$10$qNN9AKIhKhZWPPL/0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW

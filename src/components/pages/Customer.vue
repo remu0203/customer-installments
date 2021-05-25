@@ -144,7 +144,7 @@ export default {
                 email: ''
             },
             customerInstallments: {},
-            url: '/sc2-admin/fe-payments/customer-installment',
+            url: process.env.VUE_APP_API_ENDPOINT,
             message: 'No Data Found',
             grid: false
         }

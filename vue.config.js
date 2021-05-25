@@ -1,5 +1,7 @@
 module.exports = {
-    // baseUrl: 'https://login.smartcharts.xyz/',
+    // publicPath: "/",
+    publicPath: process.env.NODE_ENV === 'production' ? '/installment-payments' : '/',
+    // assetsPublicPath: '/',   
     devServer: {
       proxy: {
         '^/sc2-admin/fe-payments/': {
@@ -8,5 +10,5 @@ module.exports = {
           changeOrigin: true
         }
       }
-    }
+    },    
   }

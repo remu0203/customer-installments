@@ -31,22 +31,27 @@
                         <br><hr>
                         <h4 class="all-caps" style="color: #8ac040;">Installment Payments</h4>
                         <br>
-                        <div class="row" v-for="(installment, index) in customerInstallments.installment" v-bind:key="index">
-                            <div class="col-md-12" v-if="installment.addon_id">
-                                <div class="card">
-                                    <div class="card-header bg-success">
-                                        <h5><b>{{ installment.addon_id }} ( {{ installment.price | toCurrency }} {{ installment.currency }} )</b></h5>
-                                    </div>
-                                    <ul class="list-group list-group-flush" style="text-align:left;">
-                                        <!-- <li class="list-group-item"><b>{{ installment.price }} {{ installment.currency }}</b></li> -->
-                                        <li class="list-group-item"><b>Status:</b> {{ installment.debt_status }}</li>
-                                        <li class="list-group-item"><b>Event ID:</b> {{ installment.event_id }}</li>
-                                        <li class="list-group-item"><b>CB Invoice ID:</b> {{ installment.cb_invoice_id }}</li>
-                                        <li class="list-group-item"><b>Product ID:</b> {{ installment.product_id }}</li>
-                                        <li class="list-group-item"><b>Salesforce Sales ID:</b> {{ installment.sf_sales_id }}</li>
-                                    </ul>
 
+                        <div id="accordion">
+                            <div class="card" v-for="(installment, index) in customerInstallments.installment" v-bind:key="index">
+                                <div class="card-header" :class="resolveHeaderClass(index)" :id="'installment-'+index" >
+                                <!-- <h5 class="mb-0"> -->
+                                    <button class="btn btn-link" :class="index=='0' ? '':'collapsed'" data-toggle="collapse" :data-target="'#collapse-'+index" :aria-expanded="index=='0' ? true:false" :aria-controls="'collapse-'+index">
+                                        <h5><b>{{ installment.addon_id }} ( {{ installment.price | toCurrency }} {{ installment.currency }} )</b></h5>
+                                    </button>
+                                <!-- </h5> -->
+                                </div>
+
+                                <div :id="'collapse-'+index" class="collapse" :class="index=='0' ? 'show':''" :aria-labelledby="'installment-'+index" data-parent="#accordion">
                                     <div class="card-body">
+                                       <ul class="list-group list-group-flush" style="text-align:left;">
+                                            <li class="list-group-item"><b>Status:</b> {{ installment.debt_status }}</li>
+                                            <li class="list-group-item"><b>Event ID:</b> {{ installment.event_id }}</li>
+                                            <li class="list-group-item"><b>CB Invoice ID:</b> {{ installment.cb_invoice_id }}</li>
+                                            <li class="list-group-item"><b>Product ID:</b> {{ installment.product_id }}</li>
+                                            <li class="list-group-item"><b>Salesforce Sales ID:</b> {{ installment.sf_sales_id }}</li>
+                                        </ul>
+
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <!-- <b-button variant="outline-primary" v-model="grid">0</b-button> -->
@@ -60,7 +65,7 @@
                                             <template v-if="grid">
                                                 <div class="col-md-4" v-for="(schedule, key) in installment.installment_payment_schedules"  v-bind:key="key">
                                                     <div class="card mb-3" :class="resolveClass(schedule.status)">
-                                                        <div class="card-header">
+                                                        <div class="card-header" style="margin-top: 11px;">
                                                             <h5><b class="all-caps">{{ schedule.status }}</b></h5>
                                                             <!-- <p>( {{ schedule.sf_payment_schedule_id }} )</p> -->
                                                         </div>
@@ -79,10 +84,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
+
                     </template>
                     <template v-else>
                         <br>
@@ -193,6 +198,13 @@ export default {
             }
             return 'bg-light';
         },
+        resolveHeaderClass(index){
+            index = Number(index);
+            if(index%2==0){
+                return 'bg-success';
+            }
+            return 'bg-warning';
+        },
         rowClass(item, type) {
             if (!item || type !== 'row') return
             if (item.status === 'Pending') return 'table-danger'
@@ -225,5 +237,21 @@ export default {
 
 .bg-success{
     background-color: #78e5a4!important;
+}
+
+.card .card-header{
+    padding: 0px;
+}
+
+.btn-link{
+    text-decoration: none !important;
+    color: black !important;
+}
+.btn-link > h5 > b:hover {
+  color: rgb(44, 160, 206) !important;
+}
+
+.btn{
+    text-transform: none !important;
 }
 </style>

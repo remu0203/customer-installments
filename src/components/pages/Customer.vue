@@ -145,7 +145,7 @@ export default {
             },
             customerInstallments: {},
             url: process.env.VUE_APP_API_ENDPOINT,
-            message: 'No Data Found',
+            message: 'Welcome!',
             grid: false
         }
         // t=%242y%2410%24qNN9AKIhKhZWPPL%2F0PPesun5Bx8eLkdC1mTu8YikDviqBi5FHIgOW&e=remremdummy%2Bf1%40gmail.com
@@ -160,8 +160,10 @@ export default {
         this.params.email = urlParams.get('e');
         console.log("hash",this.params.hash)
         console.log("email",this.params.email)
-        this.loading = false;
-        this.fetchCustomerDetails();
+            this.loading = false;
+        if (window.location.href.indexOf("customer-page") > -1) {
+            this.fetchCustomerDetails();
+        }
      },
      methods:
      {
@@ -173,11 +175,16 @@ export default {
             )
             .then( response => {
                 console.log("response",response);
-                this.customerInstallments = response.data;
+                if(Object.prototype.hasOwnProperty.call(response.data, 'message')) {
+                    this.message = response.data.message;
+                }else{
+                    this.customerInstallments = response.data;
+                }
                 this.loading = false;
             })
             .catch((error) => {
                 console.log("error",error);
+                this.message = 'No Data Found.';
                 this.customerInstallments = {};
                 this.loading = false;
             });

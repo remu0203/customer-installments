@@ -422,3 +422,7 @@ footer p a:hover {
 .all-caps{
     text-transform: uppercase; 
 }
+
+.form-control{
+    background-image: none !important;
+}

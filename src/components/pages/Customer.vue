@@ -19,7 +19,7 @@
                             <div class="col-md-6 ml-auto mr-auto">
                                 <br><br>
                                 <b-input-group class="mt-3">
-                                    <b-form-input autocomplete="off" placeholder="Enter your email" v-model="email"></b-form-input>
+                                    <b-form-input :state="emailError ? false : true" autocomplete="off" placeholder="Enter your registered email" v-model="email"></b-form-input>
                                     <b-input-group-append style="margin-top: -5px !important;">
                                     <b-button variant="success" @click="verifyEmail()">Submit</b-button>
                                     </b-input-group-append>
@@ -311,5 +311,10 @@ export default {
 
 .btn{
     text-transform: none !important;
+}
+.btn-success{
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
 }
 </style>

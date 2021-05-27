@@ -426,3 +426,23 @@ footer p a:hover {
 .form-control{
     background-image: none !important;
 }
+
+.mlink{
+    cursor: pointer;
+}
+
+.mlink:hover{
+    color: blue;
+    text-decoration: underline;
+}
+
+.vlink{
+    text-transform: uppercase; 
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.vlink:hover{
+    color: rgb(50, 127, 199);
+}

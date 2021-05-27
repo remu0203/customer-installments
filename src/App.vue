@@ -11,11 +11,11 @@ import Vue2Filters from 'vue2-filters'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import { TablePlugin, BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { ModalPlugin, TablePlugin, BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
+Vue.use(ModalPlugin)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-
 Vue.use(TablePlugin)
 Vue.use(Vue2Filters)
 Vue.use(require('vue-moment'));
@@ -25,6 +25,8 @@ Vue.filter('toCurrency', function (value) {
     }
     return Number(value).toLocaleString();
 });
+
+
 
 import AppFooter from './components/layout/AppFooter.vue'
 import Customer from './components/pages/Customer.vue'

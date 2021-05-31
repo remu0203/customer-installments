@@ -1,7 +1,7 @@
 <template>
     <div class="profile-page">
         <div class="page-header header-filter" data-parallax="true" >
-        <a href="https://www.smartcharts.net/" style="z-index: 1; margin: 0px 0px 50px 200px;"><img src="images/logo.png" alt="Smartchart Logo" ></a>
+        <a href="https://www.smartcharts.net/" style="z-index: 1; margin: 0 auto;"><img src="images/logo.png" alt="Smartchart Logo" ></a>
         </div>
         
         <div class="main main-raised" >
@@ -42,16 +42,22 @@
                                         <br><br><br><br>
                                     </div>
                                     <div class="name">
-                                        <h3 class="title all-caps" style="font-family: Avenir, Helvetica, Arial, sans-serif;">{{ customerInstallments.customer.first_name }} {{ customerInstallments.customer.last_name }}</h3>
-                                        <p>{{ customerInstallments.customer.email }}</p>
+                                        <h3 class="title all-caps" style="font-family: Avenir, Helvetica, Arial, sans-serif; color: black;">
+                                            Installment Payments</h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <template v-if="customerInstallments.installment">
-                            <br><hr>
-                            <h4 class="all-caps" style="color: #8ac040;">Installment Payments</h4>
-                            <br>
+
+                            <b-list-group horizontal="md">
+                                <b-list-group-item class="bg-primary">Name:</b-list-group-item>
+                                <b-list-group-item>{{ customerInstallments.customer.first_name }} {{ customerInstallments.customer.last_name }}</b-list-group-item>
+                            </b-list-group>
+                            <b-list-group horizontal="md">
+                                <b-list-group-item  class="bg-primary">Email:</b-list-group-item>
+                                <b-list-group-item>{{ customerInstallments.customer.email }}</b-list-group-item>
+                            </b-list-group>
 
                             <div id="accordion">
                                 <div class="card" v-for="(installment, index) in customerInstallments.installment" v-bind:key="index">
@@ -61,7 +67,7 @@
                                         </span>
                                     <!-- <h5 class="mb-0"> -->
                                         <span class="mlink" :class="index=='0' ? '':'collapsed'" data-toggle="collapse" :data-target="'#collapse-'+index" :aria-expanded="index=='0' ? true:false" :aria-controls="'collapse-'+index">
-                                            <h5><b>{{ installment.addon_name }} ( {{ installment.price | toCurrency }} {{ installment.currency }} )</b></h5>
+                                            <h5><b>{{ installment.addon_name }}</b></h5>
                                         </span>
                                     <!-- </h5> -->
                                     </div>
@@ -69,12 +75,12 @@
                                     <div :id="'collapse-'+index" class="collapse" :class="index=='0' ? 'show':''" :aria-labelledby="'installment-'+index" data-parent="#accordion">
                                         <div class="card-body">
                                         <ul class="list-group list-group-flush" style="text-align:left;">
-                                                <li class="list-group-item"><b>Course:</b> {{ installment.addon_name }}</li>
-                                                <li class="list-group-item"><b>Status:</b> {{ installment.debt_status }}</li>
-                                                <li class="list-group-item"><b>Event:</b> {{ installment.event_name }}</li>
-                                                <li class="list-group-item"><b>Price Amount:</b> <span>{{ installment.price | toCurrency }} {{ installment.currency }}</span></li>
-                                                <li class="list-group-item"><b>Balance Amount:</b> <span style="color:red;">{{ installment.balance | toCurrency }} {{ installment.currency }}</span></li>
-                                            </ul>
+                                            <li class="list-group-item"><b>Course:</b> {{ installment.addon_name }}</li>
+                                            <li class="list-group-item"><b>Status:</b> {{ installment.debt_status }}</li>
+                                            <li class="list-group-item"><b>Event:</b> {{ installment.event_name }}</li>
+                                            <li class="list-group-item"><b>Price Amount:</b> <span>{{ installment.price | toCurrency }} {{ installment.currency }}</span></li>
+                                            <li class="list-group-item"><b>Balance Amount:</b> <span style="color:red;">{{ installment.balance | toCurrency }} {{ installment.currency }}</span></li>
+                                        </ul>
 
                                             <div class="row">
                                                 <div class="col-md-2">
@@ -85,13 +91,14 @@
                                                     <br><br>
                                                 </div>
                                                 <div class="col-md-10">
-                                                    <b class="pull-left" style="padding-top: 14px; color: #18a093;">SmartCharts Payment Schedule</b>
+                                                    <b class="pull-left" style="padding-top: 14px; color: #1f467a;">SmartCharts Payment Schedule</b>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <template v-if="grid">
+                                                    <!-- GRID VIEW -->
                                                     <div class="col-md-4" v-for="(schedule, key) in installment.installment_payment_schedules"  v-bind:key="key">
-                                                        <div class="card mb-3" :class="resolveClass(schedule.status)">
+                                                        <div class="card mb-3" :class="resolveClass(schedule)">
                                                             <div class="card-header" style="margin-top: 11px;">
                                                                 <!-- <h5><b class="all-caps" @click.prevent="showModal(key)">
                                                                     {{ schedule.status }}
@@ -102,7 +109,8 @@
                                                                 <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount | toCurrency }}</h5>
                                                                 <p class="card-text">Due date: <b>{{ schedule.due_date | moment("dddd, MMMM DD, YYYY") }}</b></p>
                                                                 <p class="card-text">Payment Method: <b class="all-caps">{{ schedule.payment_method ? schedule.payment_method : 'N/A' }}</b></p>
-                                                                <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p>
+                                                                <!-- <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p> -->
+                                                                <p class="card-text">Amount paid: <b>{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount_paid | toCurrency }}</b></p>
                                                                 <p class="card-text">
                                                                     <b-button variant="light" size="sm" class="mt-3" block @click="showModal(index, key)">View Transactions</b-button>
                                                                     <b></b>
@@ -112,6 +120,7 @@
                                                     </div>
                                                 </template>
                                                 <div class="col-md-12" v-else>
+                                                    <!-- LIST VIEW -->
                                                     <b-table responsive hover :items="installment.installment_payment_schedules" :fields="fields" :tbody-tr-class="rowClass" >
                                                         <template #cell(status)="data">
                                                             <!-- `data.value` is the value after formatted by the Formatter -->
@@ -123,27 +132,37 @@
                                                         <template #cell(amount)="data">
                                                             <p class="all-caps pull-right">{{ resolveCurrencySymbol(data.item.currency) }} {{ data.item.amount | toCurrency }}</p>
                                                         </template>
+                                                        <template #cell(amount_paid)="data">
+                                                            <p class="all-caps pull-right">{{ resolveCurrencySymbol(data.item.currency) }} {{ data.item.amount_paid | toCurrency }}</p>
+                                                        </template>
+                                                        <template #cell(action)="data">
+                                                                <b-button variant="primary" size="sm"  @click="showModal(index, data.index)" title="View Transactions">
+                                                                    <!-- <b-icon icon="view-list"></b-icon> -->
+                                                                    View
+                                                                </b-button>
+                                                        </template>
                                                     </b-table>
                                                 </div>
                                                 <div>
                                                     <b-modal id="modal-trans" size="lg" hide-footer>
                                                         <template #modal-title>
-                                                            <code>{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].sf_payment_schedule_name }}</code>
+                                                            <!-- <code>{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].sf_payment_schedule_name }}</code> -->
+                                                            <b-badge :variant="customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].status == 'Paid' ? 'success':'danger'" class="all-caps">{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].status }}</b-badge>
                                                         </template>
                                                         <div class="d-block text-center" v-if="customerInstallments">
                                                             <!-- <h3>Hello From This Modal! {{modalIndexes}}</h3> -->
-                                                            <p style="text-align:left;">Status: <b>{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].status }}</b></p>
-                                                            <p style="text-align:left;">Amount: <b>{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].amount | toCurrency }} {{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].currency }}</b></p>
+                                                            <p style="text-align:left;">Amount Due: <b>{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].amount | toCurrency }} {{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].currency }}</b></p>
+                                                            <p style="text-align:left;">Amount Paid: <b>{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].amount_paid | toCurrency }} {{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].currency }}</b></p>
                                                             <p style="text-align:left;">Due date: <b>{{ customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].due_date | moment("dddd, MMMM DD, YYYY") }}</b></p>
                                                             <hr>
                                                             <p><b>Transactions</b></p>
                                                             <template v-if="hasTransactions()">
-                                                                <b-table responsive hover :items="customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].installment_payment_transactions" :fields="modalFields">
+                                                                <b-table responsive hover :items="customerInstallments.installment[modalIndexes.i].installment_payment_schedules[modalIndexes.ips].installment_payment_transactions" :fields="modalFields" :tbody-tr-class="rowClass">
                                                                     <template #cell(status)="data">
                                                                         <p class="all-caps">{{ data.item.status }}</p>
                                                                     </template>
                                                                     <template #cell(amount)="data">
-                                                                        <p>{{ data.item.amount | toCurrency }}</p>
+                                                                        <p>{{ resolveCurrencySymbol(data.item.currency) }} {{ data.item.amount | toCurrency }}</p>
                                                                     </template>
                                                                     <template #cell(created_at)="data">
                                                                         <p>{{ data.item.created_at | moment(" MMMM DD, YYYY hh:mm A") }}</p>
@@ -190,25 +209,32 @@ export default {
         return {
             fields: [
                 {
-                    key: 'status',
-                    sortable: true,
-                    formatter: value => {
-                        return value.toUpperCase()
-                    }
-                },
-                {
-                    key: 'amount',
-                    // formatter: "formatAmount",
-                    sortable: true
-                },
-                {
                     key: 'due_date',
                     formatter: "formatDate",
                     sortable: true
                 },
                 {
+                    key: 'amount',
+                    // formatter: "formatAmount",
+                    label: 'Amount Due',
+                    sortable: true
+                },
+                {
                     key: 'payment_method',
                     sortable: true
+                },
+                {
+                    key: 'amount_paid',
+                    // formatter: "formatAmount",
+                    label: 'Amount Paid',
+                    sortable: true
+                },
+                {
+                    key: 'status',
+                    sortable: true,
+                    formatter: value => {
+                        return value.toUpperCase()
+                    }
                 },
                 // {
                 //     key: 'currency',
@@ -220,10 +246,9 @@ export default {
                 //     sortable: true
                 // },
                 {
-                    key: 'sf_payment_schedule_name',
-                    label: 'Payment Name',
-                    sortable: true
-                },
+                    key: 'action',
+                    dataClass: 'text-right'
+                }
             ],
             modalFields: [
                 {
@@ -236,7 +261,12 @@ export default {
                     sortable: true
                 },
                 {
+                    key: 'transaction_id',
+                    sortable: true
+                },
+                {
                     key: 'created_at',
+                    label: 'Date Time',
                     formatter: "formatDateTime",
                     sortable: true
                 },
@@ -309,25 +339,34 @@ export default {
             }
             return '$';
         },
-        resolveClass(status){
-            if(status=='Pending'){
-                return 'bg-warning';
-            }
-            if(status=='Paid'){
+        resolveClass(data){   
+            if(data.status=='Paid'){
                 return 'bg-success';
+            }
+            if(data.status=='Pending'){
+                if(moment(data.due_date)<moment())
+                return 'bg-danger';
             }
             return 'bg-light';
         },
         resolveHeaderClass(index){
             index = Number(index);
             if(index%2==0){
-                return 'bg-success';
+                return 'bg-primary';
             }
-            return 'bg-warning';
+            return 'bg-primary';
         },
         rowClass(item, type) {
             if (!item || type !== 'row') return
-            if (item.status === 'Pending') return 'table-danger'
+            if (item.status === 'Paid' || item.status === 'success') 
+                return 'table-success'
+            if(item.status === 'Pending'){
+                if(moment(item.due_date)<moment()){
+                    return 'table-danger';
+                }
+            }
+            if (item.status === 'failed')
+                return 'table-danger'
         },
         formatDate(value) {
             return moment(value, 'YYYY-MM-DD').format('dddd, MMMM DD, YYYY');
@@ -393,15 +432,28 @@ export default {
 
 <style scoped>
 .bg-warning{
-    background-color: #f8eb93!important;
+    background-color: #f8eb93 !important;
 }
 
 .bg-info{
-    background-color: #78d6e5!important;
+    background-color: #78d6e5 !important;
 }
 
 .bg-success{
-    background-color: #78e5a4!important;
+    background-color: #78e5a4 !important;
+}
+
+.bg-danger{
+    background-color: #f893a1 !important;
+}
+
+.bg-primary{
+    color: white;
+    background-color: #132d50 !important;
+}
+
+.profile-content .container{
+    background-color: #132d5021 !important;
 }
 
 .card .card-header{
@@ -434,6 +486,16 @@ export default {
     color: #fff;
     background-color: #6a7570;
     border-color: #6a7570;
+}
+
+.btn-primary{
+    border-color: #1f467a;
+    color: #1f467a;
+}
+
+.btn-outline-primary{
+    border-color: #1f467a;
+    color: #1f467a;
 }
 
 </style>

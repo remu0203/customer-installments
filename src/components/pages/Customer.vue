@@ -112,7 +112,7 @@
                                                                 <!-- <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p> -->
                                                                 <p class="card-text">Amount paid: <b>{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount_paid | toCurrency }}</b></p>
                                                                 <p class="card-text">
-                                                                    <b-button variant="light" size="sm" class="mt-3" block @click="showModal(index, key)">View Transactions</b-button>
+                                                                    <b-button variant="primary" size="sm" class="mt-3" block @click="showModal(index, key)">View Transactions</b-button>
                                                                     <b></b>
                                                                 </p>
                                                             </div>
@@ -489,6 +489,12 @@ export default {
 }
 
 .btn-primary{
+    background-color: #1f467a;
+    color: #fafafc;
+}
+
+.btn-primary:hover{
+    /* background-color: #fff; */
     border-color: #1f467a;
     color: #1f467a;
 }
@@ -496,6 +502,10 @@ export default {
 .btn-outline-primary{
     border-color: #1f467a;
     color: #1f467a;
+}
+.btn-outline-primary:hover{
+    background-color: #1f467a;
+    color: #fafafc;
 }
 
 </style>

@@ -87,8 +87,13 @@ a .material-icons {
     right: 0;
 }
 
+.profile-page{
+    background: #132d50;
+}
+
 .profile-page .page-header {
-    height: 200px;
+    /* height: 200px; */
+    height: 135px;
     background-position:center;
 }
 
@@ -121,7 +126,9 @@ a .material-icons {
 }
 
 .main-raised {
-    margin: -60px 30px 0;
+    width: 70%;
+    margin: 0 auto;
+    /* margin: -60px 30px 0; */
     border-radius: 6px;
     box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
 }
@@ -381,8 +388,9 @@ img.rounded {
 /* footer */
 
 footer{
+    background: #132d50;
     margin-top: 10px;
-    color: #555;
+    color: #fff; /* #555;*/
     padding: 25px;
     font-weight: 300;
     
@@ -404,15 +412,19 @@ footer p a:hover {
 }
 
 .bg-warning{
-    background-color: #f8eb93!important;
+    background-color: #f8eb93 !important;
 }
 
 .bg-info{
-    background-color: #78d6e5!important;
+    background-color: #78d6e5 !important;
 }
 
 .bg-success{
-    background-color: #78e5a4!important;
+    background-color: #78e5a4 !important;
+}
+
+.bg-primary{
+    background-color: #78e5a4 !important;
 }
 
 /* .list-group-item{

@@ -21,9 +21,10 @@ Vue.use(Vue2Filters)
 Vue.use(require('vue-moment'));
 Vue.filter('toCurrency', function (value) {
     if(value==''||value==null||value==undefined){
-      value = 0;
+        value = 0;
     }
-    return Number(value).toLocaleString();
+    var n = Number(value).toFixed(2);
+    return Number(n).toLocaleString();
 });
 
 

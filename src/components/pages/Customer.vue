@@ -38,7 +38,8 @@
                             <div class="col-md-6 ml-auto mr-auto">
                                 <div class="profile">
                                     <div class="avatar">
-                                        <img src="images/default_profile.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                                        <!-- <img src="images/default_profile.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid"> -->
+                                        <br><br><br><br>
                                     </div>
                                     <div class="name">
                                         <h3 class="title all-caps" style="font-family: Avenir, Helvetica, Arial, sans-serif;">{{ customerInstallments.customer.first_name }} {{ customerInstallments.customer.last_name }}</h3>
@@ -60,7 +61,7 @@
                                         </span>
                                     <!-- <h5 class="mb-0"> -->
                                         <span class="mlink" :class="index=='0' ? '':'collapsed'" data-toggle="collapse" :data-target="'#collapse-'+index" :aria-expanded="index=='0' ? true:false" :aria-controls="'collapse-'+index">
-                                            <h5><b>{{ installment.addon_id }} ( {{ installment.price | toCurrency }} {{ installment.currency }} )</b></h5>
+                                            <h5><b>{{ installment.addon_name }} ( {{ installment.price | toCurrency }} {{ installment.currency }} )</b></h5>
                                         </span>
                                     <!-- </h5> -->
                                     </div>
@@ -68,11 +69,11 @@
                                     <div :id="'collapse-'+index" class="collapse" :class="index=='0' ? 'show':''" :aria-labelledby="'installment-'+index" data-parent="#accordion">
                                         <div class="card-body">
                                         <ul class="list-group list-group-flush" style="text-align:left;">
+                                                <li class="list-group-item"><b>Course:</b> {{ installment.addon_name }}</li>
                                                 <li class="list-group-item"><b>Status:</b> {{ installment.debt_status }}</li>
-                                                <li class="list-group-item"><b>Event ID:</b> {{ installment.event_id }}</li>
-                                                <li class="list-group-item"><b>CB Invoice ID:</b> {{ installment.cb_invoice_id }}</li>
-                                                <li class="list-group-item"><b>Product ID:</b> {{ installment.product_id }}</li>
-                                                <!-- <li class="list-group-item"><b>Salesforce Sales ID:</b> {{ installment.sf_sales_id }}</li> -->
+                                                <li class="list-group-item"><b>Event:</b> {{ installment.event_name }}</li>
+                                                <li class="list-group-item"><b>Price Amount:</b> <span>{{ installment.price | toCurrency }} {{ installment.currency }}</span></li>
+                                                <li class="list-group-item"><b>Balance Amount:</b> <span style="color:red;">{{ installment.balance | toCurrency }} {{ installment.currency }}</span></li>
                                             </ul>
 
                                             <div class="row">
@@ -82,6 +83,9 @@
                                                         <b-icon :icon="grid===true ? 'list-ul' : 'grid3x3-gap-fill'"></b-icon> {{ grid===true ? 'List' : 'Grid' }}
                                                     </b-button>
                                                     <br><br>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <b class="pull-left" style="padding-top: 14px; color: #18a093;">SmartCharts Payment Schedule</b>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -97,7 +101,7 @@
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{{ resolveCurrencySymbol(schedule.currency) }} {{ schedule.amount | toCurrency }}</h5>
                                                                 <p class="card-text">Due date: <b>{{ schedule.due_date | moment("dddd, MMMM DD, YYYY") }}</b></p>
-                                                                <p class="card-text">Payment ID: <b>{{ schedule.sf_payment_schedule_id }}</b></p>
+                                                                <p class="card-text">Payment Method: <b class="all-caps">{{ schedule.payment_method ? schedule.payment_method : 'N/A' }}</b></p>
                                                                 <p class="card-text">Payment Name: <b>{{ schedule.sf_payment_schedule_name }}</b></p>
                                                                 <p class="card-text">
                                                                     <b-button variant="light" size="sm" class="mt-3" block @click="showModal(index, key)">View Transactions</b-button>
@@ -112,6 +116,12 @@
                                                         <template #cell(status)="data">
                                                             <!-- `data.value` is the value after formatted by the Formatter -->
                                                             <p title="View Transactions" class="vlink" @click="showModal(index, data.index)">{{ data.item.status }}</p>
+                                                        </template>
+                                                        <template #cell(payment_method)="data">
+                                                            <p class="all-caps">{{ data.item.payment_method ? data.item.payment_method : 'N/A' }}</p>
+                                                        </template>
+                                                        <template #cell(amount)="data">
+                                                            <p class="all-caps pull-right">{{ resolveCurrencySymbol(data.item.currency) }} {{ data.item.amount | toCurrency }}</p>
                                                         </template>
                                                     </b-table>
                                                 </div>
@@ -187,24 +197,28 @@ export default {
                     }
                 },
                 {
+                    key: 'amount',
+                    // formatter: "formatAmount",
+                    sortable: true
+                },
+                {
                     key: 'due_date',
                     formatter: "formatDate",
                     sortable: true
                 },
                 {
-                    key: 'amount',
-                    formatter: "formatAmount",
+                    key: 'payment_method',
                     sortable: true
                 },
-                {
-                    key: 'currency',
-                    sortable: false
-                },
-                {
-                    key: 'sf_payment_schedule_id',
-                    label: 'Payment ID',
-                    sortable: true
-                },
+                // {
+                //     key: 'currency',
+                //     sortable: false
+                // },
+                // {
+                //     key: 'sf_payment_schedule_id',
+                //     label: 'Payment ID',
+                //     sortable: true
+                // },
                 {
                     key: 'sf_payment_schedule_name',
                     label: 'Payment Name',

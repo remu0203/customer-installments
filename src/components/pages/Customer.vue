@@ -440,11 +440,13 @@ export default {
 }
 
 .bg-success{
-    background-color: #78e5a4 !important;
+    background-color: #c3e6cb !important;
+    /* background-color: #78e5a4 !important; */
 }
 
 .bg-danger{
-    background-color: #f893a1 !important;
+    background: #f5c6cb !important;
+    /* background-color: #f893a1 !important; */
 }
 
 .bg-primary{

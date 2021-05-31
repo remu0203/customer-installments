@@ -458,3 +458,9 @@ footer p a:hover {
 .vlink:hover{
     color: rgb(50, 127, 199);
 }
+
+@media (max-width: 1024px) {
+    .main-raised {
+        width: 95%;
+    }
+  }
